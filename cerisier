@@ -1,0 +1,2 @@
+#/usr/bin/bash
+bokeh serve main.py --show
