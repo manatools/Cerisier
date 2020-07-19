@@ -31,13 +31,14 @@ conf = base.conf
 conf.cachedir = '/tmp/my_cache_dir'
 # this seems to take time at first launch. Needed to have list of non installed packages
 base.read_all_repos()
-sack = base.fill_sack()
+sack = base.fill_sack(load_system_repo=False)
 level = 2
 hist = []
 current_rpm = "rpm"
 field = TextInput(value=current_rpm, title="Select package: ")
 level_slider = Slider(start=1, end=5, step=1, value=level, title="Deepth")
 back_bt = Button(label="Back")
+
 
 def add_requires(ref, deepth, G):
     '''
@@ -51,13 +52,11 @@ def add_requires(ref, deepth, G):
         i = 1
         for req in list(query):
             # req is a _hawkey.Reldep object
-            #print(f"{i}- requires {req}")
             i += 1
             f = sack.query().filter(provides=req).latest()
             p_name = ""
             r = 1
             for p in list(f):
-                #print(f"\t{r}- {p.name}{p.evr}")
                 r += 1
                 if (p.name == p_name) :
                     continue
@@ -120,8 +119,10 @@ def render(pkg):
     if nrn == 0:
         return Div(text="This package is unknown")
     newgraph = from_networkx(newG, spring_layout, scale=4, center=(0,0))
-    newplot = figure(title="RPM network", width= 1500, height= 800, x_range=(-2.2, 2.2), y_range=(-2.1, 2.1),
+    newplot = figure(title="RPM network", sizing_mode ="scale_width", aspect_ratio=2, x_range=(-2.2, 2.2), y_range=(-2.1, 2.1),
               tools="tap", toolbar_location=None)
+    newplot.axis.visible = False
+    newplot.grid.visible = False
     newgraph.node_renderer.glyph = Rect(height=0.1, width="width", fill_color="color")
     if nre != 0:
         newgraph.edge_renderer.glyph = MultiLine(line_color="color", line_alpha=0.8, line_width=2)
@@ -161,7 +162,7 @@ def back(event):
         if pkg != current_rpm :
             # trigger rendering
             field.value = pkg
-
+# Helper to get position of nodes and puttext label at adequate place
 code = """
     var result = new Float64Array(xs.length)
     for (var i = 0; i < xs.length; i++) {
@@ -184,4 +185,5 @@ back_bt.on_click(back)
 
 # put the field, slider, button and plot in a layout and add to the document
 layout = column(row(field, level_slider,back_bt), plot)
+layout.sizing_mode ="scale_width"
 curdoc().add_root(layout)
