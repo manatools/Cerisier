@@ -123,9 +123,9 @@ def render(pkg):
               tools="tap", toolbar_location=None)
     newplot.axis.visible = False
     newplot.grid.visible = False
-    newgraph.node_renderer.glyph = Rect(height=0.1, width="width", fill_color="color")
+    newgraph.node_renderer.glyph = Rect(height=0.07, width=0.1, fill_color="color", fill_alpha=0.0, line_alpha=0.0)
     if nre != 0:
-        newgraph.edge_renderer.glyph = MultiLine(line_color="color", line_alpha=0.8, line_width=2)
+        newgraph.edge_renderer.glyph = MultiLine(line_color="color", line_alpha=0.8)
     newplot.renderers.append(newgraph)
     source = newgraph.node_renderer.data_source
     xcoord = CustomJSTransform(v_func=code % "0", args=dict(provider=newgraph.layout_provider))
@@ -135,6 +135,8 @@ def render(pkg):
                   y=transform('index', ycoord),
                   text='name', text_font_size="12px",
                   y_offset=-6, x_offset= "offset" ,
+                  background_fill_color='color', background_fill_alpha=0.85,
+                  border_line_color='color', border_line_alpha=1.0,
                   source=source, render_mode='canvas')
     newplot.add_tools(hover)
     newplot.add_layout(labels)
