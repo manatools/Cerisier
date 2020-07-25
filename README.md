@@ -1,14 +1,15 @@
 # rpmdep-webgraph
 # Cerisier
-This tools is intended to render a graphical representation of dependencies of a set of packages of a distribution usinf DNF Api.
+This tool is intended to render a graphical representation of the dependencies of a set of packages of a distribution using the DNF API.
 
-You can enter the name of package as the root of the graph. You also click on one of the tags to set the package as the new root.
-The slider allows to set the depth of the relations.
-Tooltips display information about the package.
+You can enter the name of a package as the root of the graph. You also click on one of the labels to set its package as the new root.
 
+The slider allows one to set the depth of the relations.
 
-need to add bokeh through `pip3 install bokeh`
+Tool-tips are provided on hover and display information about the packages.
 
-Launch with `./cerisier` in the root directory.
+One needs to install bokeh using `pip3 install bokeh` or similar.
 
-![View in browser](screen.jpg)
+Launch by running `./cerisier` in the root directory of the repository.
+
+![Browser screenshot](screen.jpg)
