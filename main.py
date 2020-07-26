@@ -64,20 +64,20 @@ def add_requires(ref, deepth, G):
                 if p.name in G.nodes() :
                     attrs = get_node_attributes(G, 'req')
                     attrs[p.name] = f"{attrs[p.name]} {str(req)}/{ref.name}"
-                    set_node_attributes(G,'req',attrs)
+                    set_node_attributes(G,attrs,'req')
                 else:
                     G.add_node(p.name,
-                           {'name':p.name,
-                            'version':p.evr,
-                            'width':(len(p.name) * 0.018 + 0.05 ),
-                            'offset':- len(p.name) * 2.5 - 6,
-                            'color': ' cornsilk',
-                            'req': f"{str(req)}/{ref.name}" })
+                           name=p.name,
+                            version=p.evr,
+                            width=(len(p.name) * 0.018 + 0.05 ),
+                            offset= -len(p.name) * 2.5 - 6,
+                            color= ' cornsilk',
+                            req= f"{str(req)}/{ref.name}" )
                 G.add_edge(ref.name,p.name,
-                           {'name':ref.name,
-                            'version': ref.version,
-                            'req':str(req) ,
-                            'color':link_color})
+                           name=ref.name,
+                            version= ref.version,
+                            req=str(req) ,
+                            color=link_color)
                 if p.name != previous:
                     if deepth <= level - 2:
                         add_requires(p, deepth + 1, G)
@@ -88,12 +88,12 @@ def graphe(name, G):
     i = sack.query().filter(name=name)
     packages = list(i)
     for pkg in packages:
-        G.add_node(pkg.name, {'name':pkg.name,
-                            'version':pkg.version,
-                            'width':(len(pkg.name) * 0.018 + 0.05 ),
-                            'offset':- len(pkg.name) * 2.5 - 6,
-                             'color': ' red',
-                             'req':""})
+        G.add_node(pkg.name, name=pkg.name,
+                            version=pkg.version,
+                            width=(len(pkg.name) * 0.018 + 0.05 ),
+                            offset=- len(pkg.name) * 2.5 - 6,
+                            color= ' red',
+                            req="")
         add_requires(pkg, 0, G)
     return (G.number_of_nodes(), G.number_of_edges())
 
@@ -118,7 +118,7 @@ def render(pkg):
     nrn, nre = graphe(pkg, newG)
     if nrn == 0:
         return Div(text="This package is unknown")
-    newgraph = from_networkx(newG, spring_layout, scale=4, center=(0,0))
+    newgraph = from_networkx(newG, spring_layout, scale=2, center=(0,0))
     newplot = figure(title="RPM network", sizing_mode ="scale_width", aspect_ratio=2, x_range=(-2.2, 2.2), y_range=(-2.1, 2.1),
               tools="tap", toolbar_location=None)
     newplot.axis.visible = False
