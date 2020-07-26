@@ -5,7 +5,7 @@ Create and draw an interactive representation of packages dependencies.
 
 """
 #    Copyright (C) 2020 by Papoteur
-#    Distributed with GPLv3 license.     
+#    Distributed under the GPLv3 license.
 #    All rights reserved, see LICENSE for details.
 
 
@@ -36,11 +36,11 @@ level = 2
 hist = []
 current_rpm = "rpm"
 field = TextInput(value=current_rpm, title="Select package: ")
-level_slider = Slider(start=1, end=5, step=1, value=level, title="Deepth")
+level_slider = Slider(start=1, end=5, step=1, value=level, title="Depth")
 back_bt = Button(label="Back")
 
 
-def add_requires(ref, deepth, G):
+def add_requires(ref, depth, G):
     '''
     Add all kind od dependencies
     '''
@@ -79,8 +79,8 @@ def add_requires(ref, deepth, G):
                             req=str(req) ,
                             color=link_color)
                 if p.name != previous:
-                    if deepth <= level - 2:
-                        add_requires(p, deepth + 1, G)
+                    if depth <= level - 2:
+                        add_requires(p, depth + 1, G)
                 previous = p.name
 
 def graphe(name, G):
