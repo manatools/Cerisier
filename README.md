@@ -7,7 +7,7 @@ The slider allows one to set the depth of the relations.
 
 Tool-tips are provided on hover and display information about the packages.
 
-One needs to install Python modules bokeh using `pip3 install bokeh` or similar and `networkx`.
+One needs to install the Python modules "bokeh" and "networkx" using `pip3 install bokeh networkx` or similar.
 
 Launch by running `./cerisier` in the root directory of the repository.
 
